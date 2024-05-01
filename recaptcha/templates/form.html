@@ -6,20 +6,50 @@
     <title>Page Title</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
-    <script src='main.js'></script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 <body>
     <center>
-        <form action="index" method="post">
+        <form id="myform" action="/index/" method="post">
+            {%csrf_token%}
             <br><br>
-            Name: <input type="text" name="text">
+            Name: <input type="text" name="name">
             <br><br>
             Age: <input type="number" name="age">
             <br><br>
             Place: <input type="text" name="place">
             <br><br>
-            <input type="submit" name="sned">
+            <div class="g-recaptcha" data-sitekey="6Le9jncpAAAAAJ3K-xYKzcQ69SdHwUZmDbxkl0wG" data-callback="onsubmit"></div>
+            <input type="hidden" id="recaptchaResponse" name="recaptchaResponse">
+            <button type="button" onclick="submitform()">send</button>
         </form>
     </center>
+    <script>
+        function onsubmit(token){
+            document.getElementById("recaptchaResponse").value = token
+
+            }
+        function submitform(){
+            var formdata = new FormData(document.getElementById("myform"));
+            fetch("/verify_recaptcha/",{
+                method:"POST",
+                body:formdata,
+            })
+            .then(response=> response.json())
+            .then(data=>{
+                if (data.success){
+                    document.getElementById("myform").submit();
+                }
+                else{
+                    alert("recaptcha failed")
+                    grecaptcha.reset();
+                }
+            })
+            .catch(error=>{
+                console.error("error:",error);
+                alert("an error oocured")
+            })
+        }     
+    </script>
 </body>
 </html>
