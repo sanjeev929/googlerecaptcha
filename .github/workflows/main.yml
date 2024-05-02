@@ -37,7 +37,7 @@ jobs:
           script: |
             cd /home/ubuntu/googlerecaptcha
             git pull
-            pip install -r requirements.txt
+            sudo pip install -r requirements.txt
             sudo systemctl daemon-reload
             sudo systemctl restart mydjango.service
 
