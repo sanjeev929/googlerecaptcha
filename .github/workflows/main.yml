@@ -11,17 +11,17 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
-        
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/checkout@v2
         with:
-          node-version: '20'  
-          
+          node-version: '20'
+
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v2
         with:
           python-version: 3.x
+          architecture: x64
+          token: ${{secrets.GITHUB_TOKEN}}
+          cache-dependency-path: ./path/to/dependencies
 
       - name: Install dependencies
         run: |
@@ -29,8 +29,10 @@ jobs:
           pip install -r requirements.txt
 
       - name: Deploy to EC2
-        run: |
-          sshpass -p ${{ secrets.EC2_PASSWORD }} ssh ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} 'cd /home/ubuntu/googlerecaptcha && git pull && sudo systemctl restart mydjango.service'
-        env:
-          SSHPASS: ${{ secrets.EC2_PASSWORD }}
-        if: success()
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SECRETS }}
+          script: |
+            ssh -i ${{ secrets.EC2_SECRETS }} ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} 'cd /home/ubuntu/googlerecaptcha && git pull && sudo systemctl restart mydjango.service'
