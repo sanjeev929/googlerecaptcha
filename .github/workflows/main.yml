@@ -33,6 +33,6 @@ jobs:
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
-          key: ${{ secrets.EC2_SECRETS }}
+          key: ${{ secrets.EC2_PRIVATE_KEY }}
           script: |
-            ssh -i ${{ secrets.EC2_SECRETS }} ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} 'cd /home/ubuntu/googlerecaptcha && git pull && sudo systemctl restart mydjango.service'
+            ssh -i ${{ secrets.EC2_PRIVATE_KEY }} ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} 'cd /home/ubuntu/googlerecaptcha && git pull && sudo systemctl restart mydjango.service'
