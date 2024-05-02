@@ -12,11 +12,14 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+        with:
+          node-version: '20'
 
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
           python-version: 3.x
+          node-version: '20'
 
       - name: Install dependencies
         run: |
@@ -28,7 +31,9 @@ jobs:
           python3 manage.py test
 
       - name: Deploy to EC2
-        uses: appleboy/ssh-action@master
+        # Use a different SSH action that supports Node.js version 20
+        # Replace this with an appropriate SSH action
+        uses: some-other-ssh-action@v1
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
