@@ -37,4 +37,6 @@ jobs:
           script: |
             cd /home/ubuntu/googlerecaptcha
             git pull
+            sudo systemctl daemon-reload
             sudo systemctl restart mydjango.service
+
