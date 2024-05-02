@@ -10,7 +10,7 @@ def index(request):
         age = request.POST.get("age")
         place = request.POST.get("place")
         print(name,age,place)
-        print("okkkkkkk")
+        print("okkkkkk")
     return redirect(submitform)
 
 def verify_recaptcha(request):
