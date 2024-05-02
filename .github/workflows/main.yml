@@ -34,5 +34,4 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SECRETS }}
-          script: |
-            ssh -i ${{ secrets.EC2_SECRETS }} ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }}
+          script: whoami
