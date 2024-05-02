@@ -31,9 +31,7 @@ jobs:
           python3 manage.py test
 
       - name: Deploy to EC2
-        # Use a different SSH action that supports Node.js version 20
-        # Replace this with an appropriate SSH action
-        uses: some-other-ssh-action@v1
+        uses: owner/repo@ref
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
