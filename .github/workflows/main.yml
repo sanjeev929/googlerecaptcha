@@ -29,10 +29,8 @@ jobs:
           pip install -r requirements.txt
 
       - name: Deploy to EC2
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USERNAME }}
-          key: ${{ secrets.EC2_PRIVATE_KEY }}
-          script: |
-            ssh -i ${{ secrets.EC2_PRIVATE_KEY }} ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} 'cd /home/ubuntu/googlerecaptcha && git pull && sudo systemctl restart mydjango.service'
+        run: |
+          sshpass -p ${{ secrets.EC2_PASSWORD }} ssh ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} 'cd /home/ubuntu/googlerecaptcha && git pull && sudo systemctl restart mydjango.service'
+        env:
+          SSHPASS: ${{ secrets.EC2_PASSWORD }}
+        if: success()
