@@ -33,4 +33,3 @@ jobs:
           sshpass -p ${{ secrets.EC2_PASSWORD }} ssh ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} 'cd /home/ubuntu/googlerecaptcha && git pull && sudo systemctl restart mydjango.service'
         env:
           SSHPASS: ${{ secrets.EC2_PASSWORD }}
-        if: success()
