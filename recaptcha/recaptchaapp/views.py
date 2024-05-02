@@ -10,6 +10,7 @@ def index(request):
         age = request.POST.get("age")
         place = request.POST.get("place")
         print(name,age,place)
+        print("ok")
     return redirect(submitform)
 
 def verify_recaptcha(request):
@@ -23,4 +24,4 @@ def verify_recaptcha(request):
         data = response.json()
     except:
         data=None
-    return JsonResponse(data)    
+    return JsonResponse(data)
